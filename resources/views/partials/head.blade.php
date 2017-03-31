@@ -1,0 +1,10 @@
+<link rel="stylesheet" type="text/css" href="{{ url('assets/lib/bootstrap/css/bootstrap.min.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/lib/font-awesome/css/font-awesome.min.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/lib/select2/css/select2.min.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/lib/jquery.bxslider/jquery.bxslider.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/lib/owl.carousel/owl.carousel.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/lib/jquery-ui/jquery-ui.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/animate.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/reset.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/style.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url('assets/css/responsive.css') }}" />
