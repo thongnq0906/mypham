@@ -3,7 +3,9 @@
 @section('head-of-page')
 
 @stop
-
+@section('title')
+  Chi Tiết Blog
+@endsection
 @section('sidebar-left')
 
 @stop
@@ -99,7 +101,4 @@
             <!-- ./row-->
         </div>
     </div>
-
-
 @stop
-

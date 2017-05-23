@@ -3,6 +3,9 @@
 @section('head-of-page')
 
 @stop
+@section('title')
+  Liên Hệ
+@endsection
 
 @section('sidebar-left')
 
@@ -86,4 +89,3 @@
     </div>
 
 @stop
-

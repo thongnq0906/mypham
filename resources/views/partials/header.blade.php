@@ -19,6 +19,7 @@
                         <li><a href="{{url('/login')}}">Đăng nhập</a></li>
                     @else
                         @if (Auth::user()->isAdmin())
+                             <li><a href="javascript:;">{{Auth::user()->name}}</a></li>
                             <li><a href="{{url('/admin')}}">Quản trị</a></li>
                         @endif
                         {!! Form::open(['method' => 'POST', 'url' => 'logout']) !!}

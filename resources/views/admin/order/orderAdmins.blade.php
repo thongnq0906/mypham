@@ -1,4 +1,7 @@
 @extends('templates.dashboards')
+@section('title')
+ Order
+@endsection
 @section('content')
     <div id="page-wrapper">
 

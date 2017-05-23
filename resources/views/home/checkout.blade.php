@@ -1,5 +1,7 @@
 @extends('templates.homecategories')
-
+@section('title')
+   Check Hóa Đơn
+@endsection
 @section('footer-js')
     <script type="text/javascript">
         $(document).ready(function () {
@@ -198,13 +200,11 @@
                         <button type="submit" class="button pull-right">Đặt hàng</button>
                     </div>
                     <div class="cart_navigation">
-                        <a class="prev-btn" href="/" style="color: red;">Tiếp tục mua hàng</a> |
-                        <a class="next-btn" href="../checkout" style="color: red;">Tiến hành kiểm tra</a>
+                        <a class="prev-btn" href="{{ url('/') }}" style="color: red;">Tiếp tục mua hàng</a> |
+                        <a class="next-btn" href="{{ url('/checkout') }}" style="color: red;">Tiến hành kiểm tra</a>
                     </div>
                 {!! Form::close() !!}
             </div>
         </div>
     </div>
-
 @stop
-

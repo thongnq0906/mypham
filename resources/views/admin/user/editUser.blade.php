@@ -1,4 +1,7 @@
 @extends('templates.dashboards')
+@section('title')
+ Update User
+@endsection
 @section('content')
     <div id="page-wrapper">
 

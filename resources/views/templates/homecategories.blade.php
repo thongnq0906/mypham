@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mỹ phẩm sách tay chính hãng</title>
+    <title>@yield('title')</title>
     @include('partials.head')
     @yield('head-of-page')
 </head>

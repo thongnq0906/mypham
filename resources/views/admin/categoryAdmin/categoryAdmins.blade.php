@@ -1,4 +1,7 @@
 @extends('templates.dashboards')
+@section('title')
+ Category
+@endsection
 @section('content')
     <div id="page-wrapper">
 
@@ -96,12 +99,9 @@
                         <!-- /.panel-body -->
                     </div>
                     <!--End simple table example -->
-
             </div>
-
         </div>
-
-
     </div>
     <!-- end page-wrapper -->
 @stop
+

@@ -1,4 +1,7 @@
 @extends('templates.dashboards')
+@section('title')
+ Create Category
+@endsection
 @section('content')
     <div id="page-wrapper">
 
