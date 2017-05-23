@@ -1,4 +1,7 @@
 @extends('templates.dashboards')
+@section('title')
+ News
+@endsection
 @section('content')
     <div id="page-wrapper">
 
@@ -93,4 +96,4 @@
 
     </div>
     <!-- end page-wrapper -->
-@stop
+@endsection

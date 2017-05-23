@@ -3,7 +3,9 @@
 @section('head-of-page')
 
 @stop
-
+@section('title')
+    Hóa Đơn
+@endsection
 @section('sidebar-left')
 
 @stop
@@ -97,14 +99,11 @@
                         </tfoot>
                     </table>
                     <div class="cart_navigation">
-                        <a class="prev-btn" href="/">Tiếp tục mua hàng</a>
-                        <a class="next-btn" href="../checkout">Tiến hành kiểm tra</a>
+                        <a class="prev-btn" href="{{ url('/') }}">Tiếp tục mua hàng</a>
+                        <a class="next-btn" href="{{ url('/checkout') }}">Tiến hành kiểm tra</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 @stop
-

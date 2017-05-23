@@ -3,7 +3,9 @@
 @section('head-of-page')
 
 @stop
-
+@section('title')
+  Khuyến Mại
+@endsection
 @section('sidebar-left')
 
 @stop

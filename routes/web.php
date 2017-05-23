@@ -63,7 +63,6 @@ Route::group(['middleware' => 'auth'], function (){
         Route::resource('admin/contact', 'ContactController');
     });
 });
-
 Route::get('logout', function(){
     return redirect('login');
 });

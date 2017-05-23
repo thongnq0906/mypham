@@ -1,5 +1,8 @@
 
 @extends('templates.dashboards')
+@section('title')
+ Contact
+@endsection
 @section('content')
     <div id="page-wrapper">
 

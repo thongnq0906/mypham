@@ -3,7 +3,9 @@
 @section('head-of-page')
 
 @stop
-
+@section('title')
+     Chi Tiết Sản Phẩm
+@endsection
 @section('sidebar-left')
 
 @stop
@@ -413,4 +415,3 @@
 
 
 @stop
-

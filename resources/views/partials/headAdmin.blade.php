@@ -5,5 +5,7 @@
 <link href="{{url('AssetAdmin/assets/css/style.css')}}" rel="stylesheet" />
 <link href="{{url('AssetAdmin/assets/css/main-style.css')}}" rel="stylesheet"/>
 <!-- Page-Level CSS -->
-<link href="{{url('admin/assets/plugins/morris/morris-0.4.3.min.css')}}" rel="stylesheet" />
+<!-- <link href="{{url('admin/assets/plugins/morris/morris-0.4.3.min.css')}}" rel="stylesheet" /> -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> 
+
 <base href="http://kuteshop.dev:88/">

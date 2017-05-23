@@ -3,7 +3,9 @@
 @section('head-of-page')
 
 @endsection
-
+@section('title')
+  Sản Phẩm
+@endsection
 @section('sidebar-left')
 
 @endsection
@@ -202,7 +204,7 @@
                                @endforeach
                            </ul>
                        @else
-                           <p>There no product....</p>
+                           <p>Không có sản phẩm nào....</p>
                        @endif
                        <!-- ./PRODUCT LIST -->
                        @if($products->links())

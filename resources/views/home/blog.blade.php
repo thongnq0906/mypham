@@ -3,7 +3,9 @@
 @section('head-of-page')
 
 @stop
-
+@section('title')
+  Blog
+@endsection
 @section('sidebar-left')
 
 @stop
@@ -171,4 +173,3 @@
     </div>
 
 @stop
-

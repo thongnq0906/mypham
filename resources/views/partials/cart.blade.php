@@ -32,7 +32,7 @@
                 <span class="toal-price pull-right">{{ Cart::total() }}đ</span>
             </div>
             <div class="cart-buttons">
-                <a href="{{url('/checkout')}}" class="btn-check-out">Kiểm tra</a>
+                <a href="{{url('/public/checkout')}}" class="btn-check-out">Kiểm tra</a>
             </div>
         </div>
     </div>
