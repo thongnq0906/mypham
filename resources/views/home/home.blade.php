@@ -17,7 +17,7 @@
     <div id="nav-top-menu" class="nav-top-menu">
         <div class="container">
             <div class="row">
-                @include('partials.leftmenu');
+                @include('partials.leftmenu')
                 <div id="main-menu" class="col-sm-9 main-menu">
                     <nav class="navbar navbar-default">
                         <div class="container-fluid">
@@ -342,7 +342,7 @@
                                     <div class="banner-featured">
                                         <div class="featured-text"><span>Đặc sắc</span></div>
                                         <div class="banner-img">
-                                            <a href="#"><img alt="Featurered 1" src="{{url('uploads/product/d31b7d_simg_b5529c_250x250_maxb.JPG')}}"  style=" width:234px  ; height:280px;  " /></a>
+                                            <a href="#"><img alt="Featurered 1" src="{{url('uploads/product/feature.jpg')}}"  style=" width:234px  ;   " /></a>
                                         </div>
                                     </div>
                                     <div class="product-featured-content">
