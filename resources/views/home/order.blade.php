@@ -4,7 +4,7 @@
 
 @stop
 @section('title')
-    Hóa Đơn
+    Giỏ Hàng
 @endsection
 @section('sidebar-left')
 
@@ -15,12 +15,13 @@
         <div class="container" id="columns">
             <!-- breadcrumb -->
             <div class="breadcrumb clearfix">
-                <a class="home" href="../" title="Return to Home">Trang chủ</a>
+                <a class="home" href="{{ url('/') }}" title="Trang chủ">Trang chủ</a>
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">Giỏ hàng của bạn</span>
             </div>
             <!-- ./breadcrumb -->
             <!-- page heading-->
+            @if(Cart::count() > 0 )
             <h2 class="page-heading no-line">
                 <span class="page-heading-title2">Giỏ hàng Tóm tắt</span>
             </h2>
@@ -68,7 +69,7 @@
                                {{$item->name}}
                             </td>
                             <td class="price">
-                               {{ number_format($item->price) }}K
+                               {{ number_format($item->price) }} đ
                             </td>
                             <td class="qty">
                                 {!! Form::open(
@@ -82,7 +83,7 @@
                                 {!! Form::close() !!}
                             </td>
                             <td class="price">
-                                {{ number_format($item->price * $item->qty) }} K
+                                {{ number_format($item->price * $item->qty) }} đ
                             </td>
                             <td>
                                 <a href="{{ url('order/delete/'.$item->id) }}">Xóa </a> <br/>
@@ -94,7 +95,7 @@
                         <tr>
                             <td colspan="2" rowspan="2"></td>
                             <td colspan="3">Tổng Tiền (bao gồm thuế)</td>
-                            <td colspan="2"><b style="color: red;">{{ Cart::subtotal(0, ".", ",") }} K</b></td>
+                            <td colspan="2"><b style="color: red;">{{ Cart::subtotal(0, ".", ",") }} đ</b></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -104,6 +105,15 @@
                     </div>
                 </div>
             </div>
+            @else 
+                <h2 class="page-heading no-line">
+                <span class="page-heading-title2"> Bạn chưa có sản phẩm nào trong giỏ hàng</span>
+                </h2>
+                <div class="cart_navigation">
+                    <a class="prev-btn" href="{{ url('/') }}">Quay lại mua hàng</a>
+                </div>
+
+            @endif
         </div>
     </div>
 @stop

@@ -23,12 +23,15 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!$this->auth->user()->isAdmin()) {
-            die('Ban khong co quyen dang nhap vao quan tri !');
+        if ($this->auth->user()->isAdmin() || $this->auth->user()->isEmployee()  ) {
+           
             //session()->flash('error', 'Ban khong co quyen truy cap!');
             //return redirect('/login');
+            //
+            return $next($request);
         }
+        die('Ban khong co quyen dang nhap vao quan tri !');
 
-        return $next($request);
+        
     }
 }

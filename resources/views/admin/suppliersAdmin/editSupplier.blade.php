@@ -1,6 +1,6 @@
 @extends('templates.dashboards')
 @section('title')
- Update Supplier
+ Cập nhật sản phẩm
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -12,6 +12,7 @@
                 </div>
                 <!--end page header -->
             </div>
+            @include('partials.showError')
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Form Elements -->
@@ -19,7 +20,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    {!! Form::open(['method' => 'PATCH',
+                                    {!! Form::model($row, ['method' => 'PATCH',
                                     'url' => ['admin/supplier',$row->id]
                                     ,'files'=>true, 'role' =>'form']) !!}
                                     <div class="form-group">

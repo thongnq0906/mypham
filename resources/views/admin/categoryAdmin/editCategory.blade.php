@@ -1,15 +1,14 @@
 @extends('templates.dashboards')
 @section('title')
- Update Category
+ Cập nhật danh mục
 @endsection
 @section('content')
     <div id="page-wrapper">
 
         <div class="row">
             <!-- Page Header -->
-            <div class="col-lg-12">
-                <h1 class="page-header">Danh mục</h1>
-            </div>
+            
+           
             <!--End Page Header -->
         </div>
         <div id="page-wrapper">
@@ -20,6 +19,7 @@
                 </div>
                 <!--end page header -->
             </div>
+             @include('partials.showError')
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Form Elements -->

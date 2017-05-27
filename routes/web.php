@@ -34,6 +34,7 @@ Route::post('order/create', 'OrderController@checkout');
 Route::get('order/delete/{id}', 'MuahangController@deleteorder');
 Route::post('order/update/{id}', 'MuahangController@update');
 Route::post('product/{product}','ProductController@update')->name('product.update');
+Route::get('supplier/{id}', 'HomeController@supplier');
 Route::get('/home', function () {
     return redirect('/');
 });
@@ -48,15 +49,12 @@ Route::group(['middleware' => 'auth'], function (){
         Route::get('/admin', 'HomeController@homeAdmin');
         Route::get('/admin/statistic', 'HomeController@statistic');
         Route::get('/admin/home', 'HomeController@homeAdmin');
-        Route::get('admin/user/', 'UserController@index');
-        Route::get('admin/user/{id}/edit', 'UserController@edit');
-        Route::patch('admin/user/{id}/edit', 'UserController@update');
-        Route::delete('admin/user/{id}', 'UserController@destroy');
+        Route::resource('admin/user', 'UserController');
         Route::resource('admin/category', 'CategoryController');
         Route::resource('admin/order', 'OrderController');
         Route::post('admin/order/change_status', 'OrderController@change_status')->name('admin.order.change_status');
         Route::resource('admin/product', 'ProductController');
-        Route::resource('admin/orderDetail', 'OrderDetailController');
+        Route::get('admin/orderdetail/{id}', 'OrderController@orderDetail');
         Route::resource('admin/supplier', 'SupplierController');
         Route::resource('admin/new', 'NewController');
         Route::resource('admin/image', 'ImageController');

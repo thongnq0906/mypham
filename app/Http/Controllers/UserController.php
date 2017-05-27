@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 use App\User;
+use App\Group;
 use View;
+use Hash;
 
 class UserController extends Controller
 {
     CONST ROW_PER_PAGE = 9; //so ban ghi hien thi tren mot trang
     public function __construct(Request $request)
     {
-        $list = User::all();
+        $list = User::where('is_deleted', 0)->get();
         View::share('list', [compact('list')]);
     }
     public function index(Request $request)
@@ -24,7 +26,7 @@ class UserController extends Controller
             $list = User::where('name', 'like', '%'.$keyword . '%')
                 ->paginate(5);
         }else{
-            $list = User::paginate(5);
+            $list = User::where('is_deleted', 0)->paginate(10);
         }
         //Em lam tuong tu o trang nay nhu sau:
 
@@ -40,7 +42,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.createUser');
+        $group = Group::pluck('name', 'id');
+
+        return view('admin.user.create', [ 'group'=>$group ] );
     }
 
 
@@ -52,14 +56,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-//        if ($request->txtname){
-//            $row = new User();
-//            $row->name = $request->txtname;
-//            $row->password = $request->password;
-//            $row->save();
-//            Session::flash('success','Thêm mới thành công');
-//        }
-//        return redirect('admin.user');
+        $this->validate($request, [
+            'name'     => 'required',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|same:password_confirmation',
+            'phone'     => 'required',
+            'address'     => 'required'
+
+        ]);
+
+        $requestData = $request->all();
+        $requestData['password'] = Hash::make($requestData['password']);
+        $user = User::create($requestData);
+
+        Session::flash('success', 'Thêm mới thành công');
+
+        return redirect('admin/user');
     }
 
     /**
@@ -81,8 +93,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $row =User::findOrFail($id);
-        return view('admin.user.editUser',compact('row'));
+        $user =User::findOrFail($id);
+
+        return view('admin.user.editUser', [ 'user'=> $user ] );
     }
 
     /**
@@ -94,16 +107,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(isset($id)&& $request->name!=null){
-            $row=User::Where('id',$id)->first();
-            $row->name=$request->name;
-            $row->email=$request->email;
-            $row->phone=$request->phone;
-            $row->adderss=$request->adderss;
-            $row->save();
-            Session::flash('success','Sửa thành công!');
-        }
-        return Redirect("admin/user");
+       $user = User::findOrFail($id);
+        $this->validate($request, [
+            'name'     => 'required',
+            'phone'     => 'required',
+            'address'     => 'required'
+        ]);
+
+        $requestData = $request->all();
+        $requestData['password'] = ($requestData['password'] != '') ? Hash::make($requestData['password']) : $user->password;
+        $user->update($requestData);
+       
+        Session::flash('success', 'Cập nhật "'.$user->name.'" thành công');
+
+        return redirect('admin/user');
 
     }
 
@@ -115,11 +132,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $row =User::findOrFail($id);
-        if ($row){
-            $row->delete();
-        }
-        Session::flash('success','Xóa NGƯỜI DÙNG="'.$row->name.'" thành công!');
+        $user =User::findOrFail($id);
+        $user->is_deleted = 1;
+        $user->save();
+
+        Session::flash('success','Xóa NGƯỜI DÙNG "'.$user->name.'" thành công!');
+
         return Redirect('admin/user');
     }
 }

@@ -42,7 +42,7 @@
         @endif
         <div class="row">
             <div class="col-lg-12 col-md-12">
-            {{--<a href="{{url('admin/category/create')}}" class="btn btn-default">Thêm mới</a>--}}
+           
             <!--Simple table example -->
                 <div class="panel panel-primary">
                     <div class="panel-heading" style="line-height: 30px;">
@@ -57,11 +57,13 @@
                                         <tr>
                                             <th>STT</th>
                                             <th>Tên khách hàng</th>
-                                            <th>tên người hỗ trợ</th>
-                                            <th>Ngày mua hàng</th>
-                                            <th>Ngày nhận hàng</th>
+                                            <th> Địa chỉ </th>
+                                            <th> SĐT </th>
+                                           
                                             <th>Mô tả</th>
                                             <th>Tổng tiền</th>
+                                            <th>Ngày đặt hàng</th>
+                                            <th>Thanh toán </th>
                                             <th>Trạng thái</th>
                                         </tr>
                                         </thead>
@@ -69,13 +71,55 @@
                                         @if($list)
                                             @foreach($list as $key => $item)
                                                 <tr>
-                                                    <td>{{$key +1}}</td>
-                                                    <td><a href="{{url('admin/orderDetail')}}">{{ $item->receiver }}</a></td>
-                                                    <td>{{ $item->support }}</td>
-                                                    <td>{{ $item->orderdate }}</td>
-                                                    <td>{{ $item->requiredate }}</td>
+                                                    <td>{{$key + $list->firstItem() }}</td>
+                                                    <td>
+                                                        @if( isset($item->user_id) )
+                                                             <a href="{{url('admin/orderdetail/'. $item->id )}}">
+                                                            {{ $item->user->name }} ( TV )
+                                                       </a>
+                                                        @else 
+                                                             <a href="{{url('admin/orderdetail/'. $item->id )}}">
+                                                               {{ $item->receiver }}  ( KH ) 
+                                                             </a>
+                                                        @endif
+                                                      
+                                                    </td>
+                                                 
+                                                    <td>
+
+                                                    @if( isset($item->user_id) )
+                                                       
+                                                            {{ $item->user->address }} 
+                                                       
+                                                    @else 
+                                                        
+                                                           {{ $item->address }} 
+                                                         
+                                                    @endif
+                                                    </td>
+                                                    <td>
+                                                    
+                                                    @if( isset($item->user_id) )
+                                                      
+                                                            {{ $item->user->phone }} 
+                                                       
+                                                    @else 
+                                                        
+                                                           {{ $item->phone }}  
+                                                         
+                                                    @endif
+
+                                                    </td>
                                                     <td>{{ $item->description }}</td>
-                                                    <td>{{ $item->amount }}</td>
+                                                    <td>{{ number_format($item->amount)   }} &nbsp;đ </td>
+                                                    <td>{{ $item->created_at }}</td>
+                                                    <td>
+                                                    @if($item->type==0)
+                                                       <span style="color: red;">Thanh toán trực tiếp</span>
+                                                    @else 
+                                                       <span style="color: green;">Thanh toán online</span>
+                                                    @endif
+                                                    </td>
                                                     <td>
                                                         <select onchange="change_status({{$item->id}})" id="select-status-{{$item->id}}">
                                                             @foreach($item->get_statuses() as $key=>$status)
@@ -91,6 +135,7 @@
                                                             @endforeach
                                                         </select>
                                                     </td>
+
 
                                                 </tr>
                                             @endforeach
@@ -108,7 +153,6 @@
                     <!-- /.panel-body -->
                 </div>
                 <!--End simple table example -->
-
             </div>
 
         </div>
@@ -138,7 +182,7 @@
                     alert(data.message);
                 },
                 error:function(){
-                    alert("Không thực hiện được hành động này!");
+                    alert(" Bạn có chắc muốn cập nhật đơn hàng! ");
                 }
             });
         }

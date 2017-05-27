@@ -16,7 +16,7 @@
         <div class="container" id="columns">
             <!-- breadcrumb -->
             <div class="breadcrumb clearfix">
-                <a class="home" href="../" title="Return to Home">Trang chủ</a>
+                <a class="home" href="{{ url('/') }}" title="Return to Home">Trang chủ</a>
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">Giới thiệu</span>
             </div>
@@ -48,12 +48,12 @@
                 <div class="center_column col-xs-12 col-sm-9" id="center_column">
                     <!-- page heading-->
                     <h2 class="page-heading">
-                        <span class="page-heading-title2">Đôi nét về KUTESHOP</span>
+                        <span class="page-heading-title2">Đôi nét về Korean SHOP</span>
                     </h2>
                     <!-- Content page -->
                     <div class="content-text clearfix">
 
-                        <img src="img/psdCosmetic5_zps1b946d64.jpg" class="alignleft" width="310" alt="">
+                        <img src="img/feature.jpg" class="alignleft" width="310" alt="">
 
                         <p>KOREANSHOP là nhãn hiệu thời trang của Công ty TNHH KOREANSHOP Việt Nam.
                             Ra đời đầu năm 2014, khi thị trường thời trang Việt Nam đã hội tụ đầy đủ

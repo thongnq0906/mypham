@@ -1,7 +1,8 @@
 
 @extends('templates.dashboards')
 @section('title')
- Contact
+  Liên hệ
+
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -46,24 +47,29 @@
                                             <th>Email</th>
                                             <th>Số điện thoại</th>
                                             <th>message</th>
-                                            <th>Hoạt động</th>
+                                            <th> Trạng thái </th>
+                                            <th> Ngày tạo </th>
+                                            <th> Hành động</th>
                                         </tr>
                                         </thead>
-                                        <tbody>@foreach($contact as $key=>$it)
+                                        <tbody>@foreach($contact as $key=> $it)
                                             <tr>
-                                                <td>{{$key+1}}</td>
+                                                <td>{{ $key+ $contact->firstItem() }}</td>
                                                 <td>{{$it->name}}</td>
                                                 <td>{{$it->email}}</td>
                                                 <td>{{$it->phone}}</td>
                                                 <td>{{$it->message}}</td>
                                                 <td>
-                                                    {{Form::open([
-                                                                    'method'=>'DELETE',
-                                                                    'url'=>['admin/contact',$it->id]
-                                                                    ])}}
-                                                    <a href="{{url('admin/contact/'.$it->id.'/edit')}}" class="btn btn-primary">Sửa</a>
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa không');">Xóa</button>
-                                                    {{Form::close()}}
+                                                    @if($it->status == 1)
+                                                        <span style="color: blue;"> Đã liên hệ </span>
+                                                    @else
+                                                        <span style="color: red;"> Chưa liên hệ </span>
+                                                    @endif
+                                                </td>
+                                                <td> {{$it->created_at}}</td>
+                                                
+                                                <td>
+                                                     <a href="{{url('admin/contact/'.$it->id.'/edit')}}" class="btn btn-primary">Sửa</a>
                                                 </td>
                                             </tr>
                                         @endforeach

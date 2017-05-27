@@ -1,6 +1,6 @@
 @extends('templates.dashboards')
 @section('title')
- Update User
+ Cập nhật người dùng
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -16,7 +16,7 @@
             <div class="row">
                 <!-- page header -->
                 <div class="col-lg-12" style="margin-left: -280px;">
-                    <h1 class="page-header">Sửa người dùng "{{$row->name}}"</h1>
+                    <h1 class="page-header">Sửa người dùng "{{$user->name}}"</h1>
                 </div>
                 <!--end page header -->
             </div>
@@ -27,19 +27,29 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    {!! Form::open([
-                                    'method' => 'PATCH',
-                                    'url' => 'admin/user/'.$row->id.'/edit',
+                                    {!! Form::model($user, 
+                                    [ 'method' => 'PATCH',
+                                    'url' => [ 'admin/user', $user->id ],
                                     'role' =>'form']) !!}
                                             <div class="form-group">
                                                 <label for="name">Tên người dùng:</label>
-                                                <input name="name" id="name" class="form-control" value="{{$row->name}}">
+                                                <input name="name" id="name" class="form-control" required value="{{ $user->name }}">
+
                                                 <label for="email">email:</label>
-                                                <input name="email" id="email" class="form-control" value="{{$row->email}}">
-                                                <label for="phone">phone:</label>
-                                                <input name="phone" id="phone" class="form-control" value="{{$row->phone}}">
-                                                <label for="adderss">email:</label>
-                                                <input name="adderss" id="adderss" class="form-control" value="{{$row->adderss}}">
+                                                <input name="email" id="email" class="form-control" readonly="" value="{{ $user->email }}">
+
+                                                <label for="password">Mật khẩu:</label>
+                                                <input id="password" type="password" class="form-control" name="password" required value="{{ $user->password }}" readonly="">
+
+                                                <label for="password">Nhập lại mật khẩu:</label>
+                                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required readonly="">
+
+                                                <label for="phone">Số điện thoại:</label>
+                                                <input name="phone" id="phone" class="form-control" required value="{{ $user->phone }}">
+
+                                                <label for="address">Địa chỉ:</label>
+                                                <input name="address" id="adderss" class="form-control"
+                                                required value="{{ $user->address }}">
                                             </div>
                                             <button type="submit" class="btn btn-primary">Sửa người dùng</button>
                                     {!! Form::close() !!}

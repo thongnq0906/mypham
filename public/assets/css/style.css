@@ -54,6 +54,10 @@ body{
 body.is-ontop{
     margin-top: 53px;
 }
+.row{
+   padding: 0;
+   margin: 0;
+}
 h1{
     font-size: 44px;
 }
@@ -2139,7 +2143,7 @@ span.notify-right{
 .product-list li .product-star{
     width: auto;
     float: right;
-    color: #ff9900;
+    color: #fff;
     text-align: right;
      display: inline-block;
      padding-top: 5px;
@@ -2257,8 +2261,8 @@ span.notify-right{
 .content-page{
     background: #eaeaea;
     margin-top: 30px;
-    padding-bottom: 30px;
-}
+    /*padding-bottom: 30px;
+*/}
 /*------------------
 [11.1 Category featured]
 */
@@ -2610,8 +2614,8 @@ span.notify-right{
 /** add-box **/
 #address-list .tit-name{
     float: left;
-    font-weight: bold;
-    width: 70px;
+    /*font-weight: bold;*/
+    width: 30px;
     padding-right: 5px;
 }
 #address-list {

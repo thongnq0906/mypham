@@ -1,15 +1,12 @@
 @extends('templates.dashboards')
 @section('title')
- Create Category
+ Thêm mới danh mục
 @endsection
 @section('content')
     <div id="page-wrapper">
 
         <div class="row">
             <!-- Page Header -->
-            <div class="col-lg-12">
-                <h1 class="page-header">Danh mục</h1>
-            </div>
             <!--End Page Header -->
         </div>
         <div id="page-wrapper">
@@ -20,6 +17,7 @@
                 </div>
                 <!--end page header -->
             </div>
+             @include('partials.showError')
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Form Elements -->
@@ -29,8 +27,8 @@
                                 <div class="col-lg-6">
                                     {!! Form::open(['method' => 'POST','url' => 'admin/category', 'role' =>'form']) !!}
                                         <div class="form-group">
-                                            <label for="txtname">Tên danh mục:</label>
-                                            <input name="txtname" id="txtname" class="form-control">
+                                            <label for="name">Tên danh mục:</label>
+                                            <input name="name" id="txtname" class="form-control">
                                             <label for="txtname">Danh mục Cha</label><br/>
                                             <select class="form-control" name="parent_id">
                                                 <option value="0" selected="selected">No Parent</option>

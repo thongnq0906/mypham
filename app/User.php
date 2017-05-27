@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'group_id'
+        'name', 'email', 'password', 'group_id', 'phone', 'address'
     ];
 
     /**
@@ -28,10 +28,18 @@ class User extends Authenticatable
     ];
 
     public function group() {
-        return $this->belongsTo('App\Group');
+        return $this->belongsTo('App\Group', 'group_id', 'id');
     }
 
     public function isAdmin() {
         return $this->group->name == 'Admin' ? true : false;
+    }
+    public function isEmployee(){
+        
+        return $this->group->name == 'Employee' ? true :false;
+    }
+
+    public function order(){
+        return $this->hasMany('App\Order', 'user_id', 'id');
     }
 }

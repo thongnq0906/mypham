@@ -28,5 +28,8 @@ class Product extends Model
         return $this->hasOne(\App\Supplier::class,'id','supplier_id');
     }
 
+    public function orderDetail(){
+        return $this->hasMany('App\OrderDetail', 'product_id', 'id');
+    }
 
 }
