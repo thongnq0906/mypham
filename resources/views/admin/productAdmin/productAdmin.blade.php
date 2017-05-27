@@ -1,7 +1,7 @@
 
 @extends('templates.dashboards')
 @section('title')
- Product
+ Sản phẩm
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -66,20 +66,20 @@
                                             <th>STT</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Danh mục</th>
-                                            <th>Nhà cung cấp</th>
+                                            <th>Thương hiệu</th>
                                             <th>Giá</th>
-                                            <th>Ngày nhập</th>
-                                            <th>Trạng thái</th>
-                                            <th>Nội dung</th>
+                                         <!--    <th>Trạng thái</th> -->
+                                          <!--   <th>Nội dung</th> -->
                                             <th>Số lượng</th>
                                             <th>Ảnh đại diện</th>
                                             <th>Giảm giá</th>
+                                            <th>Ngày nhập</th>
                                             <th>Hoạt động</th>
                                         </tr>
                                         </thead>
                                         <tbody>@foreach($list as $key=>$it)
                                             <tr>
-                                                <td>{{$key+1}}</td>
+                                                <td>{{$key + $list->firstItem() }}</td>
                                                 <td>{{$it->name}}</td>
                                                 <td>
                                                     @if(!is_null($it->category))
@@ -91,11 +91,13 @@
                                                         {{$it->supplier->name}}
                                                     @endif
                                                 </td>
-                                                <td>{{$it->price}}</td>
-                                                <td>{{$it->productdate}}</td>
-                                                <td>{{$it->available}}</td>
-                                                <td>{!! htmlspecialchars_decode($it->short_description) !!}</td>
+                                                <td>{{ number_format($it->price) }}</td>
+                                              <!--   <td>{{$it->available}}</td> -->
+                                             <!--    <td>{!! htmlspecialchars_decode($it->short_description) !!}
+                                                <br>
+                                                </td> -->
                                                 <td>{{$it->quantity}}</td>
+
                                                 <td>
                                                     <div>
                                                         <img src="{{url('/uploads/product/'.$it->thumbnail)}}" width="100px"
@@ -103,7 +105,8 @@
                                                     </div>
 
                                                 </td>
-                                                <td>{{$it->discount}}</td>
+                                                <td>{{$it->discount }}  %</td>
+                                                 <td>{{$it->created_at}}</td>
                                                 <td>
                                                     {{Form::open([
                                                                     'method'=>'DELETE',

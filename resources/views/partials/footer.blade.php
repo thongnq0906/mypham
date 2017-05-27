@@ -6,11 +6,19 @@
                 <div id="address-box">
                     <a href="#"><img src="{{url('assets/images/logo12.png')}}" alt="" /></a>
                     <div id="address-list">
-                        <div class="tit-name">Địa chỉ:</div>
-                        <div class="tit-contain">90 Nguyễn Lương Bằng-Q.Đống Đa-TP.Hà Nội</div>
-                        <div class="tit-name">Số ĐT:</div>
+                        <div class="tit-name "> 
+                         <span class="fa fa-map-marker"> </span>
+                        </div>
+                        <div class="tit-contain">
+                         90 Nguyễn Lương Bằng-Q.Đống Đa-TP.Hà Nội
+                        </div>
+                        <div class="tit-name">
+                         <span class="fa fa-phone"> </span>
+                        </div>
                         <div class="tit-contain">+ 021.343.7575</div>
-                        <div class="tit-name">Email:</div>
+                        <div class="tit-name">
+                            <span class="fa fa-envelope"></span>
+                        </div>
                         <div class="tit-contain">nguyenthitien17061995@gmail.com</div>
                     </div>
                 </div>
@@ -19,14 +27,14 @@
             </div>
             <div class="col-md-3">
                 <div id="contact-box">
-                    <div class="introduce-title">BẢN TIN</div>
+                    <div class="introduce-title">Nhận Khuyến mại</div>
                     <div class="input-group" id="mail-box">
                         <input type="text" placeholder="Địa chỉ Email của bạn"/>
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">OK</button>
                           </span>
                     </div><!-- /input-group -->
-                    <div class="introduce-title">Let's Socialize</div>
+                    <div class="introduce-title">mạng xã hội</div>
                     <div class="social-link">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-pinterest-p"></i></a>
@@ -67,7 +75,7 @@
                 @endif
             </ul>
         </div>
-        <p class="text-center">Copyrights &#169; 2015 KuteShop. All Rights Reserved. Designed by kuteshop.dev</p>
+        <p class="text-center">Copyrights &#169; 2017 korean Shop. All Rights Reserved. Designed by kuteshop.dev</p>
     </div><!-- /#footer-menu-box -->
     </div>
 </footer>

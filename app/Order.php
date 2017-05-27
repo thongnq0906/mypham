@@ -29,4 +29,12 @@ class Order extends Model
         $statuses = $this->get_statuses();
         return $statuses[$this->status];
     }
+
+    public function user(){
+        return  $this->belongsTo('App\User', 'user_id', 'id');
+    }
+
+    public function orderDetail(){
+        return $this->hasMany('App\OrderDetail', 'order_id', 'id');
+    }
 }

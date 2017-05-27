@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comtact;
 use App\News;
-use App\Order_detail;
+use App\OrderDetail;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Supplier;
@@ -22,140 +22,65 @@ use Response;
 class HomeController extends Controller
 {
     private $footer = null;
-    CONST ROW_PER_PAGE = 9; //so ban ghi hien thi tren mot trang
+    CONST ROW_PER_PAGE = 10; //so ban ghi hien thi tren mot trang
     public function __construct()
     {
-        $this->footer = Supplier::all();
-        $list = Category::all();
+        $this->footer = Supplier::where('is_deleted', 0)->get();
+        $list = Category::where('is_deleted', 0)->get();
+
         View::share('list', [compact('list')]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $supplier = Supplier::all();
-        $product=Product::all();
-        $best = Order_detail::getBestSell();
+        $supplier = Supplier::where('is_deleted', 0)->get();
+        $productOther=Product::where('is_deleted', 0)->orderBy('created_at', 'asc')->take(8)->get();
+        // $best = OrderDetail::getBestSell();
+        $best = Product::where('is_deleted', 0)->where('discount', '>=', 15)->take(8)->get();
         $wishlist_sp = Product::where('status', 1)->get();
-        $catediscount = Product::orderBy('discount', 'desc')->limit(4)->get();
-        $cate = Product::orderBy('created_at', 'desc')->limit(4)->get();
+        $catediscount = Product::where('is_deleted', 0)->where('discount', '>=', 1)->orderBy('discount', 'desc')->take(8)->get();
+        $cate = Product::where('is_deleted', 0)->orderBy('created_at', 'desc')->take(8)->get();
         return view('home.home', [
                                 'footer'          => $this->footer,
                                 'best'            => $best,
                                 'supplier'        => $supplier,
                                 'catediscount'    => $catediscount,
                                 'cate'            => $cate,
-                                'product'         =>$product,
+                                'productOther'         =>$productOther,
                                 'wishlist_sp'     =>$wishlist_sp
                             ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+   
+     
     public function show($id)
     {
         $cate = Category::findOrFail($id);
-        $products = Product::where('category_id', $id)->paginate(9);
+        $products = Product::where('is_deleted', 0)->where('category_id', $id)->paginate(10);
+
         return view('home.product', compact('products', 'cate'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Responseyf
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+   
     public function blog()
-    {
-//        $xem = News::where('id', $id)->first();
-//        $xem->view = $xem->view + 1;
-//        $xem->save();
-        $cateblog = News::orderBy('created_at', 'desc')->limit(3)->get();
-        $blog = News::paginate(5);
-        return view('home.blog', ['cateblog' => $cateblog,'blog' => $blog, 'footer' => $this->footer,
-//            'xem' => $xem
-        ] );
+    {      
+        $cateblog = News::where('is_deleted', 0)->orderBy('created_at', 'desc')->limit(3)->get();
+        $blog = News::where('is_deleted', 0)->paginate(5);
+
+        return view('home.blog', ['cateblog' => $cateblog,'blog' => $blog, 
+                                  'footer' => $this->footer, ] );
     }
 
-    public function checkout()
-    {
-        $total = 0;
-        $content = Cart::content();
-        foreach ($content as $item) {
-            $total = $item->qty * $item->price;
-        }
-        Session::flash('contact', 'Cảm ơn bạn đã đặt hàng, chúng tôi sẽ sớm giao hàng!');
-
-        return view('home.checkout', ['footer' => $this->footer, 'total' => $total]);
-    }
-
+ 
     public function categories()
     {
-
         return view('categories.categories', ['footer' => $this->footer]);
     }
 
     public function blog_detail($id)
     {
-        $datail_ds=News ::all();
-        $detail = News::where('id', $id)->first();;
+        $datail_ds=News::where('is_deleted', 0)->get();
+        $detail = News::where('is_deleted', 0)->where('id', $id)->first();
+
         return view('home.blog_detail',['detail'=> $detail ,'datail_ds'=> $datail_ds ,'footer' => $this->footer]);
     }
 
@@ -167,9 +92,10 @@ class HomeController extends Controller
 
     public function wishlist()
     {
-        $wishlist = Product::all();
-        $wishlist_sp = Product::where('status', 1)->paginate(8);
-        return view('home.wishlist', ['wishlist' => $wishlist, 'wishlist_sp' => $wishlist_sp, 'footer' => $this->footer]);
+        // $wishlist = Product::where('is_deleted', 0 )->get();
+        $wishlist_sp = Product::where('is_deleted', 0)->where('discount', '>', 1)->paginate(8);
+
+        return view('home.wishlist', [ 'wishlist_sp' => $wishlist_sp, 'footer' => $this->footer]);
     }
 
     public function support()
@@ -226,15 +152,15 @@ class HomeController extends Controller
 
     public function homeAdmin()
     {
-        $productTotal = Product::select(DB::raw('sum(quantity) as total'))->first(); //lay ve tong so san pham con trong kho
+        $productTotal = Product::where('is_deleted', 0)->select(DB::raw('sum(quantity) as total'))->first(); //lay ve tong so san pham con trong kho
         $orderTotal = Order::count();
         $orderWaitingTotal = Order::where('status', 1)->count();
         $orderProcessingTotal = Order::where('status', 2)->count();
         $orderDoneTotal = Order::where('status', 3)->count();
         $orderCancelTotal = Order::where('status', 4)->count();
-        $orderUser = User::count();
-        $orderCategory = Category::count();
-        $orderSupplier = Supplier::count();
+        $orderUser = User::where('is_deleted', 0)->count();
+        $orderCategory = Category::where('is_deleted', 0)->count();
+        $orderSupplier = Supplier::where('is_deleted', 0)->count();
         $orders = Order::where('status', '1')->orderBy('orderdate', 'DESC')->paginate(10);
 
         return view('admin.homAdmin.homAdmin', [
@@ -252,6 +178,27 @@ class HomeController extends Controller
 
         ]);
     }
+
+    public function checkout()
+        {
+            $total = 0;
+            $content = Cart::content();
+            foreach ($content as $item) {
+                $total = $item->qty * $item->price;
+            }
+            Session::flash('contact', 'Cảm ơn bạn đã đặt hàng, chúng tôi sẽ sớm giao hàng!');
+
+            return view('home.checkout', ['footer' => $this->footer, 'total' => $total]);
+        }
+
+    public function supplier($id){
+
+        $namesup = Supplier::where('is_deleted', 0)->where('id', $id)->first();
+        $suppliers=Product::where('is_deleted', 0)->where('supplier_id', $id)->paginate(9);
+      
+        return view('home.supplier', [ 'footer' => $this->footer, 'suppliers'=>$suppliers, 
+             'namesup'=>$namesup ]);
+    }    
 
     public function statistic()
     {
@@ -301,5 +248,9 @@ class HomeController extends Controller
             }
         }
         die();*/
+    }
+
+    public function total(){
+        return view('partials.cart');
     }
 }

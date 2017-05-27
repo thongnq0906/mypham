@@ -1,6 +1,6 @@
 @extends('templates.dashboards')
 @section('title')
- News
+ Bài viết
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -8,7 +8,7 @@
         <div class="row">
             <!-- Page Header -->
             <div class="col-lg-12">
-                <h1 class="page-header">Tin Thời trang</h1>
+                <h1 class="page-header">Bài viết</h1>
             </div>
             <!--End Page Header -->
         </div>
@@ -24,6 +24,7 @@
                 <!--end  Welcome -->
             </div>
         @endif
+        @include(' partials.showError ')
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <!--Area chart example -->
@@ -31,7 +32,7 @@
                 <!--Simple table example -->
                 <div class="panel panel-primary">
                     <div class="panel-heading" style="line-height: 30px;">
-                        <i class="fa fa-bar-chart-o fa-fw"></i>Danh sách tin thời trang
+                        <i class="fa fa-bar-chart-o fa-fw"></i>Danh sách Bài viết
                         <div class="pull-right">
                             <div class="btn-group">
                                 <a type="button" class="btn btn-default" href="{{url('admin/new/create')}}" style="background-color: #2ca02c;"><span class="glyphicon glyphicon-plus" style="color: white; font-weight: bold; font-size: 16px;"></span> Thêm mới</a>
@@ -49,12 +50,13 @@
                                             <th>STT</th>
                                             <th>Tiêu đề</th>
                                             <th>Hình ảnh</th>
-                                            <th>Nội dung</th>
+                                            <!-- <th>Nội dung</th> -->
+                                            <th>Ngày tạo</th>
                                         </tr>
                                         </thead>
                                         <tbody>@foreach($list as $key=>$it)
                                             <tr>
-                                                <td>{{$key+1}}</td>
+                                                <td>{{$key +  $list->firstItem() }}</td>
                                                 <td>{{$it->title}}</td>
                                                 <td>
                                                     <div>
@@ -63,7 +65,8 @@
                                                     </div>
 
                                                 </td>
-                                                <td>{!! $it->short_description !!}</td>
+                                                <td>{{$it->created_at}}</td>
+                                               <!--  <td>{!! $it->short_description !!}</td> -->
                                                 <td>
                                                     {{Form::open([
                                                                     'method'=>'DELETE',

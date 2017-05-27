@@ -1,6 +1,6 @@
 @extends('templates.dashboards')
 @section('title')
- Category
+ Danh mục
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Danh mục</h1>
             </div>
-
+          @include('partials.showError')
             <!--End Page Header -->
         </div>
         <div class="row" style="margin-bottom: 30px;">
@@ -64,6 +64,7 @@
                                                 <tr>
                                                     <th>STT</th>
                                                     <th>Tên danh mục</th>
+                                                    <th>Ngày tạo</th>
                                                     <th>hoạt động</th>
                                                 </tr>
                                             </thead>
@@ -71,8 +72,9 @@
                                                 @if($list)
                                                     @foreach($list as $key => $item)
                                                         <tr>
-                                                            <td>{{$key +1}}</td>
+                                                            <td>{{$key + $list->firstItem() }}</td>
                                                             <td>{{ $item->name }}</td>
+                                                            <td> {{$item->created_at }}</td>
                                                             <td>
                                                                 {{Form::open([
                                                                     'method'=>'DELETE',

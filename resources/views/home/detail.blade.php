@@ -15,11 +15,11 @@
         <div class="container" id="columns">
             <!-- breadcrumb -->
             <div class="breadcrumb clearfix">
-                <a class="home" href="#" title="Return to Home">Trang chủ</a>
+                <a class="home" href="{{ url('/') }}" title="Trang chủ">Trang chủ</a>
                 <span class="navigation-pipe">&nbsp;</span>
-                <a href="#" title="Return to Home">Product</a>
+                <a href="{{ url('/product') }}" title=" Sản Phẩm"> Sản Phẩm</a>
                 <span class="navigation-pipe">&nbsp;</span>
-                <a href="#" title="Return to Home">Women</a>
+                <a href="javascript:;" title="Chi Tiết Sản Phẩm"> Chi Tiết Sản Phẩm</a>
             </div>
             <!-- ./breadcrumb -->
             <!-- row -->
@@ -315,7 +315,13 @@
                                     </div>
                                 </div>
                                 <div class="product-price-group">
-                                    <span class="price product-price">{{number_format($product->price * ($product->discount)   / 100)}}đ</span>
+                                    <span class="price product-price">
+                                        @if($product->discount > 0 )
+                                             {{number_format($product->price * ($product->discount)   / 100)}}đ
+                                        @else 
+                                             {{number_format( $product->price )}}đ
+                                        @endif
+                                    </span>
                                     <span class="discount">{{ $product->discount }}%</span>
                                 </div>
                                 <div class="product-desc">
@@ -388,7 +394,13 @@
                                                 <i class="fa fa-star-half-o"></i>
                                             </div>
                                             <div class="content_price">
-                                                <span class="price product-price">{{number_format($item->price * (($item->discount)/100))}}đ</span>
+                                                <span class="price product-price">
+                                                    @if($item->discount > 0 )
+                                                         {{number_format($item->price * ($item->discount)   / 100)}}đ
+                                                    @else 
+                                                         {{number_format( $item->price )}}đ
+                                                    @endif
+                                                </span>
                                                 <span class="price old-price">{{$item->price}}đ</span>
                                             </div>
                                         </div>

@@ -14,13 +14,14 @@ use Session;
 
 class ProductController extends Controller
 {
-    CONST ROW_PER_PAGE = 9; //so ban ghi hien thi tren mot trang
+    CONST ROW_PER_PAGE = 10; //so ban ghi hien thi tren mot trang
     private $footer = null;
 
     public function __construct()
     {
-        $list = Category::all();
-        $this->footer = Supplier::all();
+        $list = Category::where('is_deleted', 0)->get();
+        $this->footer = Supplier::where('is_deleted', 0)->get();
+
         View::share('list', [compact('list')]);
     }
 
@@ -29,10 +30,10 @@ class ProductController extends Controller
         $keyword='';
         if($request->has('keyword')) {
             $keyword = $request->get('keyword');
-            $list = Product::where('name', 'like', '%'.$keyword . '%')
-                ->paginate(5);
+            $list = Product::where('is_deleted', 0)->where('name', 'like', '%'.$keyword . '%')
+                ->paginate(10);
         }else{
-            $list = Product::paginate(5);
+            $list = Product::where('is_deleted', 0)->paginate(10);
         }
         //Em lam tuong tu o trang nay nhu sau:
 
@@ -59,15 +60,15 @@ class ProductController extends Controller
             $products->withPath('product?category='.$request->get('category').'&keyword='.$request->get('keyword'));
         } elseif ($request->has('keyword')) {
             $keyword = $request->get('keyword');
-            $products = Product::where('name', 'like', "%$keyword%")->paginate(self::ROW_PER_PAGE);
+            $products = Product::where('is_deleted', 0)->where('name', 'like', "%$keyword%")->paginate(self::ROW_PER_PAGE);
             $products->withPath('product?keyword='.$request->get('keyword'));
         } elseif ($request->has('category')) {
             $category_id = $request->get('category');
             $cate = Category::findOrFail($category_id);
-            $products = Product::where('category_id', $category_id)->paginate(self::ROW_PER_PAGE);
+            $products = Product::where('is_deleted', 0)->where('category_id', $category_id)->paginate(self::ROW_PER_PAGE);
             $products->withPath('product?category='.$request->get('category'));
         } else {
-            $products = Product::paginate(self::ROW_PER_PAGE);
+            $products = Product::where('is_deleted', 0)->paginate(self::ROW_PER_PAGE);
         }
 
         return view('home.product', [
@@ -83,12 +84,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $suppliers = Supplier::all();
-        $images = Image::all();
-        return view('admin.productAdmin.createProduct',['categories'=>$categories,'suppliers'=>$suppliers,  'images'=>$images]);
+        $categories = Category::where('is_deleted', 0)->get();
+        $suppliers = Supplier::where('is_deleted', 0)->get();
+        $images = Image::where('is_deleted', 0)->get();
 
-        return view('admin.productAdmin.createProduct',['categories'=>$categories,'suppliers'=>$suppliers]);
+        return view('admin.productAdmin.createProduct',
+                   ['categories'=>$categories,'suppliers'=>$suppliers,  'images'=>$images]);
+
     }
 
     /**
@@ -101,7 +103,13 @@ class ProductController extends Controller
     {
         // muốn upload ảnh thì đầu tiên form của em phải khia báo thêm thuộc tính
         // 'files' => true và dưới đây là code upload ảnh
-        if($request->txtname){
+        $this->validate($request, [
+            'txtname'     => 'required|unique:products,name', 
+            'txtGia'      => 'required',
+            'txtSoluong'      => 'required',
+            'txtMotangan'      => 'required',
+            'txtMota'      => 'required'
+        ]);
             $row= new Product();
             if ($request->hasFile('txtAnhDd')) {
                 $row->name=$request->txtname;
@@ -143,8 +151,8 @@ class ProductController extends Controller
                 }
             }
 
-        }
         Session::flash('success','Thêm mới thành công');
+
         return redirect('admin/product');
     }
 
@@ -157,10 +165,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::where('id', $id)->first();
+        $product = Product::where('is_deleted', 0)->where('id', $id)->first();
         $product->view = $product->view + 1;
         $product->save();
-        $pro = Product::where('category_id', $product->category_id)->where('id', '!=', $id)->paginate(15);
+        $pro = Product::where('is_deleted', 0)->where('category_id', $product->category_id)->where('id', '!=', $id)->paginate(15);
 
         return view('home.detail', ['product' => $product,'pro' => $pro]);
     }
@@ -173,9 +181,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::all();
-        $suppliers = Supplier::all();
+        $categories = Category::where('is_deleted', 0)->get();
+        $suppliers = Supplier::where('is_deleted', 0)->get();
         $row =Product::findOrFail($id);
+
         return view('admin.productAdmin.editProduct',compact('row','categories','suppliers'));
     }
 
@@ -189,6 +198,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, $product)
     {
+        
+
+        $this->validate($request, [
+            'name'     => 'required', 
+            'price'      => 'required',
+            'quantity'      => 'required',
+            'short_description'      => 'required',
+            'description'      => 'required'
+        ]);
+
         $data = $request->all();
         $product = Product::whereId($product)->firstOrFail();
         $product->update($data);
@@ -221,16 +240,18 @@ class ProductController extends Controller
         }
 
         Session::flash('success', 'Sửa thành công!');
+
         return Redirect("admin/product");
     }
 
     public function destroy($id)
     {
-        $row =Product::findOrFail($id);
-        if ($row){
-            $row->delete();
-        }
-        Session::flash('success','Xóa Sản phẩm -"'.$row->name.'" thành công!');
+        $product = Product::findOrFail($id);
+        $product->is_deleted = 1;
+        $product->save();
+
+        Session::flash('success','Xóa Sản phẩm "'.$product->name.'" thành công!');
+
         return Redirect('admin/product');
     }
 }

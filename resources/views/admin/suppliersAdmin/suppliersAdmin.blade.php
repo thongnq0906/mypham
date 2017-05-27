@@ -1,7 +1,7 @@
 
 @extends('templates.dashboards')
 @section('title')
- Supplier
+ Thương hiệu
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -9,7 +9,7 @@
         <div class="row">
             <!-- Page Header -->
             <div class="col-lg-12">
-                <h1 class="page-header">Dashboard</h1>
+                <h1 class="page-header">Thương hiệu</h1>
             </div>
             <!--End Page Header -->
         </div>
@@ -32,7 +32,7 @@
                 <!--Simple table example -->
                 <div class="panel panel-primary">
                     <div class="panel-heading" style="line-height: 30px;">
-                        <i class="fa fa-bar-chart-o fa-fw"></i>Danh sách nhà cung cấp
+                        <i class="fa fa-bar-chart-o fa-fw"></i>Danh sách Thương hiệu cung cấp
                         <div class="pull-right">
                             <div class="btn-group">
                                 <a type="button" class="btn btn-default" href="{{url('admin/supplier/create')}}" style="background-color: #2ca02c;"><span class="glyphicon glyphicon-plus" style="color: white; font-weight: bold; font-size: 16px;"></span> Thêm mới</a>
@@ -52,12 +52,13 @@
                                             <th>logo</th>
                                             <th>Email</th>
                                             <th>Số điện thoại</th>
+                                            <th>Ngày tạo</th>
                                             <th>Hoạt động</th>
                                         </tr>
                                         </thead>
-                                        <tbody>@foreach($list as $key=>$it)
+                                        <tbody>@foreach($list as $key=> $it)
                                             <tr>
-                                                <td>{{$key+1}}</td>
+                                                <td>{{$key + $list->firstItem() }}</td>
                                                 <td>{{$it->name}}</td>
                                                 <td>
                                                     <div>
@@ -65,8 +66,9 @@
                                                              height="80px">
                                                     </div>
                                                 </td>
-                                                <td>{{$it->email}}</td>
-                                                <td>{{$it->phone}}</td>
+                                                <td> {{ $it->email }}</td>
+                                                <td> {{ $it->phone }}</td>
+                                                <td> {{ $it->created_at }}</td>
                                                 <td>
                                                     {{Form::open([
                                                                     'method'=>'DELETE',
@@ -79,11 +81,11 @@
 
                                             </tr>
                                         @endforeach
-                                        {{--<?foreach ($list as $it) {  ?>--}}
-                                        {{----}}
-                                        {{--<? $i++; }?>--}}
                                         </tbody>
                                     </table>
+                                    @if($list->links())
+                                            {!! $list->links() !!}
+                                    @endif
                                 </div>
 
                             </div>

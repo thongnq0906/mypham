@@ -16,7 +16,7 @@
         <div class="container" id="columns">
             <!-- breadcrumb -->
             <div class="breadcrumb clearfix">
-                <a class="home" href="../" title="Return to Home">Trang chủ</a>
+                <a class="home" href="{{ url('/') }}" title="Trang chủ">Trang chủ</a>
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">Sản phẩm</span>
             </div>
@@ -37,7 +37,7 @@
                                 <div class="layered_subtitle" style="color: black;"><b>Khuyến mãi nhân dịp 8/3</b></div>
                                 <div class="layered-content filter-brand">
                                     <ul class="check-box-list">
-                                                <li> <img class="icon-menu" alt="Funky roots" src="{{url('img/e0374d2dff01e53d4a5a1eed00361862.png')}}"> &nbsp&nbsp
+                                                <li> <img class="icon-menu" alt="Funky roots" src="{{url('img/e0374d2dff01e53d4a5a1eed00361862.png')}}"> &nbsp;&nbsp;
                                                     <input type="checkbox" id="brand1" name="cc" />
                                                     <label for="brand1" style="color:deeppink;">
                                                     </label>
@@ -147,7 +147,7 @@
                                 @if(isset($cate))
                                     {{ $cate->name }}
                                 @else
-                                    Tất cả danh muc
+                                    SẢN PHẨM
                                 @endif
                             </span>
                         </h2>
@@ -169,17 +169,29 @@
                                                 <a href="{{ url('/detail/'.$item->id ) }}">
                                                     <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}" style="height: 300px; width: 300px;"/>
                                                 </a>
-                                                <div class="quick-view">
+                                             <!--  <div class="quick-view">
                                                     <a title="Add to my wishlist" class="heart" href="#"></a>
                                                     <a title="Add to compare" class="compare" href="#"></a>
                                                     <a title="Quick view" class="search" href="#"></a>
-                                                </div>
+                                                </div> -->
                                                 <div class="add-to-cart">
                                                     <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
                                                 </div>
+                                                @if($item->discount > 1 )
+                                                 <div class="group-price">
+                                                        <span class="product-new">{{ $item->discount }} %</span>
+                                                        <span class="product-sale">Giảm giá</span>
+                                                 </div>
+                                                @else 
+
+                                                @endif
                                             </div>
                                             <div class="right-block">
-                                                <h5 class="product-name"><a href="#">{{ $item->name }}</a></h5>
+                                                <h5 class="product-name">
+                                                 <a href="{{ url('/detail/'.$item->id ) }}">
+                                                  {{ $item->name }}
+                                                 </a>
+                                                </h5>
                                                 <div class="product-star">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -188,16 +200,22 @@
                                                     <i class="fa fa-star-half-o"></i>
                                                 </div>
                                                 <div class="content_price">
-                                                    <span class="price product-price">{{ number_format(($item->discount/100)*$item->price) }} đ</span>
+                                                     <span class="price product-price">
+                                                        @if($item->discount > 0 )
+                                                             {{number_format($item->price * (100- $item->discount)   / 100)}}đ
+                                                        @else 
+                                                             {{number_format( $item->price )}}đ
+                                                        @endif
+                                                    </span>
                                                     <span class="price old-price">{{ $item->price }} đ</span>
                                                 </div>
-                                                <div class="info-orther">
+                                               <!--  <div class="info-orther">
                                                     <p>{{ $item->id }}</p>
                                                     <p class="availability">Khả dụng: <span>{{ $item->available }}</span></p>
                                                     <div class="product-desc">
                                                         {!! htmlspecialchars_decode($item->short_description ) !!}
                                                    </div>
-                                               </div>
+                                               </div> -->
                                            </div>
                                        </div>
                                    </li>
@@ -209,7 +227,7 @@
                        <!-- ./PRODUCT LIST -->
                        @if($products->links())
                            {!! $products->links() !!}
-                        @endif
+                       @endif
                     </div>
                     <!-- ./view-product-list-->
 

@@ -15,7 +15,8 @@ class CategoryController extends Controller
 
     public function __construct(Request $request)
     {
-        $list = Category::all();
+        $list = Category::where('is_deleted', 0)->get();
+
         View::share('list', [compact('list')]);
     }
 
@@ -25,10 +26,10 @@ class CategoryController extends Controller
         $keyword = '';
         if ($request->has('keyword')) {
             $keyword = $request->get('keyword');
-            $list = Category::where('name', 'like', '%' . $keyword . '%')
-                ->paginate(6);
+            $list = Category::where('is_deleted', 0)->where('name', 'like', '%' . $keyword . '%')
+                ->paginate(10);
         } else {
-            $list = Category::paginate(6);
+            $list = Category::where('is_deleted', 0)->paginate(10);
         }
         //Em lam tuong tu o trang nay nhu sau:
 
@@ -44,7 +45,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('is_deleted', 0)->get() ;
+
         return view('admin.categoryAdmin.createCategory', ['categories' => $categories]);
     }
 
@@ -57,14 +59,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->txtname) {
-            $row = new Category();
-            $row->name = $request->txtname;
-            $row->parent_id = $request->parent_id;
-            $row->save();
+        $this->validate($request, [
+            'name'     => 'required|unique:categories, name'
+        ]);
 
-            Session::flash('success', 'Thêm mới thành công');
-        }
+        $category = new Category();
+        $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
+        $category->save();
+
+        Session::flash('success', 'Thêm mới thành công');
+        
         return redirect('admin/category');
     }
 
@@ -88,7 +93,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $row = Category::findOrFail($id);
-        $categories = Category::all();
+
+        $categories = Category::where('is_deleted', 0)->get();
 
         return view('admin.categoryAdmin.editCategory', ['row' => $row, 'categories' => $categories]);
     }
@@ -102,13 +108,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (isset($id) && $request->name != null) {
-            $row = Category::Where('id', $id)->first();
-            $row->name = $request->name;
-            $row->parent_id = $request->parent_id;
-            $row->save();
-            Session::flash('success', 'Sửa thành công!');
-        }
+        $this->validate($request, [
+            'name'     => 'required'
+        ]);
+
+        $row = Category::findOrFail($id);
+        $row->name = $request->name;
+        $row->parent_id = $request->parent_id;
+        $row->save();
+
+        Session::flash('success', 'Sửa thành công!');
+    
         return Redirect("admin/category");
 
     }
@@ -121,11 +131,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $row = Category::findOrFail($id);
-        if ($row) {
-            $row->delete();
-        }
-        Session::flash('success', 'Xóa DANH MỤC="' . $row->name . '" thành công!');
+        $category = Category::findOrFail($id);
+        $category->is_deleted = 1;
+        $category->save();
+       
+        Session::flash('success', 'Xóa DANH MỤC"' . $category->name . '" thành công!');
+
         return Redirect('admin/category');
     }
 

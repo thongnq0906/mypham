@@ -1,6 +1,6 @@
 @extends('templates.dashboards')
 @section('title')
- User
+ Người dùng
 @endsection
 @section('content')
     <div id="page-wrapper">
@@ -42,18 +42,17 @@
         @endif
         <div class="row">
             <div class="col-lg-12 col-md-12">
-                {{--<a href="{{url('admin/category/create')}}" class="btn btn-default">Thêm mới</a>--}}
-                <!--Simple table example -->
+                
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="line-height: 30px;">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>DANH SÁCH
-                            {{--<div class="pull-right">--}}
-                                {{--<div class="btn-group">--}}
-                                    {{--<div class="btn-group">--}}
-                                        {{--<a type="button" href="{{url('admin/user/create')}}" class="btn btn-default" style="background-color: #2ca02c; color: white; font-weight: bold;"><span class="glyphicon glyphicon-plus" style="color: white; font-weight: bold; font-size: 16px;"></span> Thêm mới</a>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                            <i class="fa fa-bar-chart-o fa-fw"></i>DANH SÁCH NGƯỜI DÙNG
+                                <div class="pull-right">
+                                  <div class="btn-group">
+                                    <div class="btn-group">
+                                        <a type="button" href="{{url('admin/user/create')}}" class="btn btn-default" style="background-color: #2ca02c; color: white; font-weight: bold;"><span class="glyphicon glyphicon-plus" style="color: white; font-weight: bold; font-size: 16px;"></span> Thêm mới</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -67,6 +66,7 @@
                                                     <th>email</th>
                                                     <th>số điện thoại</th>
                                                     <th>địa chỉ</th>
+                                                    <th>Quyền</th>
                                                     <th>Hoạt động</th>
                                                 </tr>
                                             </thead>
@@ -74,11 +74,12 @@
                                                 @if($list)
                                                     @foreach($list as $key => $item)
                                                         <tr>
-                                                            <td>{{$key +1}}</td>
+                                                            <td>{{$key + $list->firstItem() }}</td>
                                                             <td>{{ $item->name }}</td>
                                                             <td>{{ $item->email }}</td>
                                                             <td>{{ $item->phone }}</td>
-                                                            <td>{{ $item->adderss }}</td>
+                                                            <td>{{ $item->address }}</td>
+                                                            <td>{{ $item->group->name }}</td>
                                                             <td>
                                                                 {{Form::open([
                                                                     'method'=>'DELETE',

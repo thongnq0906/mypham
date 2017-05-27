@@ -15,14 +15,15 @@ class MuahangController extends Controller
 
     public function __construct()
     {
-        $this->footer = Supplier::all();
+        $this->footer = Supplier::where('is_deleted', 0)->get();
     }
 
     public function muahang($id){
-        $buy = Product::where('id', $id)->first();
+        $buy = Product::where('is_deleted', 0)->where('id', $id)->first();
 
         if ($buy->quantity > 0) { //ktra nếu số lượng lớn hơn 0 thì add vào giỏ hàng
-            cart::add(array('id'=>$id , 'name' =>$buy->name,'qty'=> 1 ,'price' => $buy->price,'options'=>array('img'=>$buy->thumbnail)));
+            cart::add(array('id'=>$id , 'name' =>$buy->name,'qty'=> 1 ,'price' => $buy->price,
+                'options'=>array('img'=>$buy->thumbnail, 'discount'=>$buy->discount )));
         } else {
             //neu số lượng nhỏ hon hoặc bàng 0 thì không cho add và báo ra message
             Session::flash('out_of_stock', 'Sản phẩm "'.$buy->name.'" đã hết hàng xin chọn sản phẩm khác !');
@@ -32,6 +33,7 @@ class MuahangController extends Controller
     }
 
     public function hienthi(){
+        
         return view('home.order',[ 'footer' => $this->footer]);
     }
 
@@ -45,60 +47,11 @@ class MuahangController extends Controller
                 break;
             }
         }
-
+        
         return redirect('order');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         //lấy về số lượng còn lại trong kho của sản phẩm này
@@ -120,14 +73,5 @@ class MuahangController extends Controller
         return redirect('order');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

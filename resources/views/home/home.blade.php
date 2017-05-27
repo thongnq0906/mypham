@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,14 +36,14 @@
                                     </li>
                                     <li><a href="{{url('/contact')}}">LIÊN HỆ</a></li>
                                 </ul>
-                            </div><!--/.nav-collapse-->
+                            </div>
                         </div>
                     </nav>
                 </div>
             </div>
             <!-- userinfo on top-->
-                            <div id="form-search-opntop">
-                            </div>
+                            <!-- <div id="form-search-opntop">
+                            </div> -->
                             <!-- userinfo on top-->
                             <div id="user-info-opntop">
                             </div>
@@ -141,7 +140,7 @@
             <div class="page-top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-9 page-top-left">
+                        <div class="col-xs-12 col-sm-12 page-top-left">
                             <div class="popular-tabs">
                                 <ul class="nav-tab">
                                     <li class="active"><a data-toggle="tab" href="#tab-1">BEST SELLERS</a></li>
@@ -151,7 +150,7 @@
                                 <div class="tab-container">
 
                                     <div id="tab-1" class="tab-panel active">
-                                        <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":3}}'>
+                                        <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":4},"1000":{"items":4}}'>
                                             <!-- sản phẩm 1 -->
                                             @if($best)
                                                 @foreach($best as $item)
@@ -160,33 +159,37 @@
                                                         <a href="{{ url('/detail/'.$item->id ) }}">
                                                             <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}" style="width:268px  ; height:327px; " />
                                                         </a>
-                                                        <div class="quick-view">
-                                                            <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                            <a title="Add to compare" class="compare" href="#"></a>
-                                                            <a title="Quick view" class="search" href="#"></a>
-                                                        </div>
+                                                       
                                                         <div class="add-to-cart">
                                                             <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
                                                         </div>
                                                         <div class="group-price">
-                                                            <span class="product-new">MỚI</span>
+                                                            <span class="product-new">{{ $item->discount }} %</span>
                                                             <span class="product-sale">Giảm giá</span>
                                                         </div>
                                                     </div>
                                                     <div class="right-block">
 
-                                                        <h5 class="product-name"><a href="#">{{$item->name}}</a></h5>
+                                                        <h5 class="product-name">
+                                                         <a href="{{ url('/detail/'.$item->id ) }}">{{$item->name}}</a>
+                                                        </h5>
                                                         <div class="content_price">
-                                                            <span class="price product-price">{{number_format($item->price * ($item->discount)   / 100)}}đ</span>
+                                                           <span class="price product-price">
+                                                            @if($item->discount > 0 )
+                                                                 {{number_format($item->price * (100 - $item->discount)   / 100)}}đ
+                                                            @else 
+                                                                 {{number_format( $item->price )}}đ
+                                                            @endif
+                                                            </span>     
                                                             <span class="price old-price">{{ $item->price }}đ</span>
                                                         </div>
-                                                        <div class="product-star">
+                                                        <!-- <div class="product-star">
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star"></i>
                                                             <i class="fa fa-star-half-o"></i>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </li>
                                                 @endforeach
@@ -197,35 +200,46 @@
                                     </div>
 
                                     <div id="tab-2" class="tab-panel">
-                                        <ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":3}}'>
+                                        <ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":4},"1000":{"items":4}}'>
                                           @if($catediscount)
                                             @foreach($catediscount as $item)
                                             <li>
                                                 <div class="left-block">
                                                     <a href="{{ url('/detail/'.$item->id ) }}">
                                                         <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}"  style="width:268px  ; height:327px; " />
-                                                    </a>                                                    <div class="quick-view">
-                                                        <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                        <a title="Add to compare" class="compare" href="#"></a>
-                                                        <a title="Quick view" class="search" href="#"></a>
-                                                    </div>
+                                                    </a>                                                  
                                                     <div class="add-to-cart">
                                                         <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
                                                     </div>
+                                                    <div class="group-price">
+                                                            <span class="product-new">{{ $item->discount }} %</span>
+                                                            <span class="product-sale">Giảm giá</span>
+                                                    </div>
                                                 </div>
                                                 <div class="right-block">
-                                                    <h5 class="product-name"><a href="#">{{$item->name}}</a></h5>
+                                                    <h5 class="product-name">
+                                                      <a href="{{ url('/detail/'.$item->id ) }}">
+                                                       {{$item->name}}
+                                                       </a>
+                                                    </h5>
                                                     <div class="content_price">
-                                                        <span class="price product-price">{{number_format($item->price * ($item->discount)   / 100)}}đ</span>
+
+                                                       <span class="price product-price">
+                                                        @if($item->discount > 0 )
+                                                             {{number_format($item->price * (100 - $item->discount)   / 100)}}đ
+                                                        @else 
+                                                             {{number_format( $item->price )}}đ
+                                                        @endif
+                                                        </span>      
                                                         <span class="price old-price">{{ $item->price }}đ</span>
                                                     </div>
-                                                    <div class="product-star">
+                                                    <!-- <div class="product-star">
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star-half-o"></i>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </li>
                                             @endforeach
@@ -235,35 +249,51 @@
                                     </div>
 
                                     <div id="tab-3" class="tab-panel">
-                                        <ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":3}}'>
+                                        <ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":4},"1000":{"items":4}}'>
                                             @if($cate)
                                                 @foreach($cate as $item)
                                                     <li>
                                                         <div class="left-block">
                                                             <a href="{{ url('/detail/'.$item->id ) }}">
                                                                 <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}"  style="width:268px  ; height:327px; " />
-                                                            </a>                                                    <div class="quick-view">
-                                                                <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                                <a title="Add to compare" class="compare" href="#"></a>
-                                                                <a title="Quick view" class="search" href="#"></a>
-                                                            </div>
+                                                            </a>                                              
                                                             <div class="add-to-cart">
                                                                 <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
                                                             </div>
+                                                            @if($item->discount > 1 )
+                                                             <div class="group-price">
+                                                                    <span class="product-new">{{ $item->discount }} %</span>
+                                                                    <span class="product-sale">Giảm giá</span>
+                                                             </div>
+                                                            @else 
+
+                                                            @endif
+                                                           
                                                         </div>
                                                         <div class="right-block">
-                                                            <h5 class="product-name"><a href="#">{{$item->name}}</a></h5>
+                                                            <h5 class="product-name">
+                                                             <a href="{{ url('/detail/'.$item->id ) }}">
+                                                               {{$item->name}}
+                                                             </a>
+                                                            </h5>
                                                             <div class="content_price">
-                                                                <span class="price product-price">{{number_format($item->price * ($item->discount)   / 100)}}đ</span>
-                                                                <span class="price old-price">{{ $item->price }}đ</span>
+                                                                <span class="price product-price">
+                                                                @if($item->discount > 0 )
+                                                                     {{number_format($item->price * (100 - $item->discount)   / 100)}}đ
+                                                                        <span class="price old-price">{{ $item->price }}đ</span>
+                                                                @else 
+                                                                     {{number_format( $item->price )}}đ
+                                                                @endif
+                                                                </span>    
+                                                             
                                                             </div>
-                                                            <div class="product-star">
+                                                           <!--  <div class="product-star">
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star-half-o"></i>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </li>
                                                 @endforeach
@@ -275,60 +305,63 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-3 page-top-right">
-                            <div class="latest-deals">
-                                <h2 class="latest-deal-title">SẢN PHẨM MỚI</h2>
-                                <div class="latest-deal-content">
-                                    <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":1}}'>
-                                     @if($cate)
-                                        @foreach($cate as $item)
-                                             <li>
-                                            <div class="count-down-time" data-countdown="2015/06/27"></div>
-                                            <div class="left-block">
-                                                <a href="{{ url('/detail/'.$item->id ) }}">
-                                                    <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}" style="width:268px  ; height:327px; "  />
-                                                </a>
-                                                <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                                </div>
-                                                <div class="add-to-cart">
-                                                    <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
-                                                </div>
-                                            </div>
-                                            <div class="right-block">
-                                                <h5 class="product-name"><a href="#">{{$item->name}}</a></h5>
-                                                <div class="content_price">
-                                                    <span class="price product-price">{{number_format($item->price * ($item->discount)   / 100)}}đ</span>
-                                                    <span class="price old-price">{{ $item->price }} đ</span>
-                                                    <span class="colreduce-percentage">(-10%)</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        @endforeach
-                                     @endif
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- <div class="col-xs-12 col-sm-3 page-top-right">
+                          <div class="latest-deals">
+                               <h2 class="latest-deal-title">SẢN PHẨM MỚI</h2>
+                               <div class="latest-deal-content">
+                                   <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":1}}'>
+                                    @if($cate)
+                                       @foreach($cate as $item)
+                                            <li>
+                                           <div class="count-down-time" data-countdown="2015/06/27"></div>
+                                           <div class="left-block">
+                                               <a href="{{ url('/detail/'.$item->id ) }}">
+                                                   <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}" style="width:268px  ; height:327px; "  />
+                                               </a>
+                                   
+                                               <div class="add-to-cart">
+                                                   <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
+                                               </div>
+                                           </div>
+                                           <div class="right-block">
+                                               <h5 class="product-name"><a href="#">{{$item->name}}</a></h5>
+                                               <div class="content_price">
+                                                  <span class="price product-price">
+                                                   @if($item->discount > 0 )
+                                                        {{number_format($item->price * (100 - $item->discount)   / 100)}}đ
+                                                   @else 
+                                                        {{number_format( $item->price )}}đ
+                                                      
+                                                   @endif
+                                                   </span>    
+                                                  
+                                                   <span class="colreduce-percentage">{{$item->discount}} %</span>
+                                               </div>
+                                           </div>
+                                       </li>
+                                       @endforeach
+                                    @endif
+                                   </ul>
+                               </div>
+                           </div>  
+                        </div> -->
                     </div>
                 </div>
             </div>
             <!---->
             <div class="content-page">
                 <div class="container">
-                    <!-- featured category fashion -->
-                    {{--@foreach($data as $cItem)--}}
+               
+                   
                         <div class="category-featured" style="margin-top: -28px;">
                             <div class="category-banner">
                             </div>
-                            <!--  THỜI TRANG NỮ -->
+                            
                             <div class="category-featured">
                                 <nav class="navbar nav-menu nav-menu-red show-brand">
                                     <div class="container">
                                         <!-- Brand and toggle get grouped for better mobile display -->
-                                        <div class="navbar-brand"><a href="#"><img alt="fashion" src="assets/data/fashion.png" />HÀNG MỚI VỀ</a></div>
+                                        <div class="navbar-brand"><a href="#"><img alt="fashion" src="assets/data/fashion.png" />SẢN PHẨM KHÁC</a></div>
                                         <span class="toggle-menu"></span>
                                         <!-- Collect the nav links, forms, and other content for toggling -->
                                     </div><!-- /.container-fluid -->
@@ -338,47 +371,63 @@
                                     </div>
                                 </nav>
                                 <!--  THỜI TRANG NỮ -->
-                                <div class="product-featured clearfix">
-                                    <div class="banner-featured">
+                              <!--   <div class="product-featured clearfix"> -->
+                                   <!--  <div class="banner-featured">
                                         <div class="featured-text"><span>Đặc sắc</span></div>
                                         <div class="banner-img">
                                             <a href="#"><img alt="Featurered 1" src="{{url('uploads/product/feature.jpg')}}"  style=" width:234px  ;   " /></a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="product-featured-content">
                                         <div class="product-featured-list">
                                             <div class="tab-container">
                                                 <!-- tab product -->
                                                 <div class="tab-panel active" id="tab-4">
-                                                    <ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":3}}'>
-                                                        @if($cate)
-                                                            @foreach($cate as $item)
+                                                    <ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":4},"1000":{"items":4}}'>
+                                                        @if($productOther)
+                                                            @foreach($productOther as $item)
                                                                 <li>
                                                                     <div class="left-block">
                                                                         <a href="{{ url('/detail/'.$item->id ) }}">
                                                                             <img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}"  style="width:250px  ; height:280px; " />
-                                                                        </a>                                                    <div class="quick-view">
-                                                                            <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                                            <a title="Add to compare" class="compare" href="#"></a>
-                                                                            <a title="Quick view" class="search" href="#"></a>
-                                                                        </div>
+                                                                        </a>                                                                 
                                                                         <div class="add-to-cart">
                                                                             <a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>
                                                                         </div>
+                                                                         @if($item->discount > 1 )
+                                                                         <div class="group-price">
+                                                                                <span class="product-new">{{ $item->discount }} %</span>
+                                                                                <span class="product-sale">Giảm giá</span>
+                                                                         </div>
+                                                                        @else 
+
+                                                                        @endif
                                                                     </div>
                                                                     <div class="right-block">
-                                                                        <h5 class="product-name"><a href="#">{{$item->name}}</a></h5>
+                                                                        <h5 class="product-name">
+                                                                         <a href="{{ url('/detail/'.$item->id ) }}">  {{$item->name}}
+                                                                         </a>
+                                                                        </h5>
                                                                         <div class="content_price">
-                                                                            <span class="price product-price">{{number_format($item->price * ($item->discount)   / 100)}}đ</span>
-                                                                            <span class="price old-price">{{ $item->price }}đ</span>
+                                                                           <span class="price product-price">
+                                                                            @if($item->discount > 0 )
+                                                                                 {{number_format($item->price * (100 - $item->discount)   / 100)}}đ
+
+                                                                                  <span class="price old-price">{{ $item->price }}đ</span>
+                                                                            @else 
+                                                                                 {{number_format( $item->price )}}đ
+                                                                                  
+                                                                            @endif
+                                                                            </span>    
+                                                                          
                                                                         </div>
-                                                                        <div class="product-star">
+                                                                        <!-- <div class="product-star">
                                                                             <i class="fa fa-star"></i>
                                                                             <i class="fa fa-star"></i>
                                                                             <i class="fa fa-star"></i>
                                                                             <i class="fa fa-star"></i>
                                                                             <i class="fa fa-star-half-o"></i>
-                                                                        </div>
+                                                                        </div> -->
                                                                     </div>
                                                                 </li>
                                                             @endforeach
@@ -386,45 +435,7 @@
 
                                                     </ul>
                                                 </div>
-                                                <!-- tab product -->
-                                                {{--<div class="tab-panel" id="tab-5">--}}
-                                                    {{--<ul class="product-list owl-carousel"  data-dots="false" data-loop="true" data-nav = "true" data-margin = "30"  data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":3}}'>--}}
-                                                        {{--@if($cate)--}}
-                                                            {{--@foreach($cate as $item)--}}
-                                                                {{--<li>--}}
-                                                                    {{--<div class="left-block">--}}
-                                                                        {{--<a href="{{ url('/detail/'.$item->id ) }}">--}}
-                                                                            {{--<img class="img-responsive" alt="product" src="{{url('uploads/product/'.$item->thumbnail)}}" />--}}
-                                                                        {{--</a>                                                    <div class="quick-view">--}}
-                                                                            {{--<a title="Add to my wishlist" class="heart" href="#"></a>--}}
-                                                                            {{--<a title="Add to compare" class="compare" href="#"></a>--}}
-                                                                            {{--<a title="Quick view" class="search" href="#"></a>--}}
-                                                                        {{--</div>--}}
-                                                                        {{--<div class="add-to-cart">--}}
-                                                                            {{--<a title="Add to Cart" href="{!! url('muahang',[$item->id]) !!}">Thêm vào giỏ hàng</a>--}}
-                                                                        {{--</div>--}}
-                                                                    {{--</div>--}}
-                                                                    {{--<div class="right-block">--}}
-                                                                        {{--<h5 class="product-name"><a href="#">{{$item->name}}</a></h5>--}}
-                                                                        {{--<div class="content_price">--}}
-                                                                            {{--<span class="price product-price">{{ $item->discount }} đ</span>--}}
-                                                                            {{--<span class="price old-price">{{ $item->price }}đ</span>--}}
-                                                                        {{--</div>--}}
-                                                                        {{--<div class="product-star">--}}
-                                                                            {{--<i class="fa fa-star"></i>--}}
-                                                                            {{--<i class="fa fa-star"></i>--}}
-                                                                            {{--<i class="fa fa-star"></i>--}}
-                                                                            {{--<i class="fa fa-star"></i>--}}
-                                                                            {{--<i class="fa fa-star-half-o"></i>--}}
-                                                                        {{--</div>--}}
-                                                                    {{--</div>--}}
-                                                                {{--</li>--}}
-                                                            {{--@endforeach--}}
-                                                        {{--@endif--}}
-
-                                                    {{--</ul>--}}
-
-                                                </div>
+                                               
                                             </div>
 
                                         </div>
@@ -433,17 +444,17 @@
                             </div>
 
                         </div>
-                    {{--@endforeach--}}
+                  
                     <!-- end THỜI TRANG NỮ -->
 
                     <!-- Banner bottom -->
                     <!-- <div class="row banner-bottom"> -->
-                    <div class="col-sm-6" style="margin: 30px 0px 0px -15px;">
+                    <div class="col-sm-6" style="margin: 30px 0 0 15px;">
                         <div class="banner-boder-zoom">
                             <a href="#"><img alt="ads" class="img-responsive" src="{{ url('img/bannerffff.jpg') }}" /></a>
                         </div>
                     </div>
-                    <div class="col-sm-6" style="margin: 30px 0px 0px -15px;">
+                    <div class="col-sm-6" style="margin: 30px 0 0 -15px;">
                         <div class="banner-boder-zoom">
                             <a href="#"><img alt="ads" class="img-responsive" src="{{ url('img/banner-top-landing.jpg') }}" /></a>
                         </div>
@@ -458,54 +469,18 @@
 <div class="container">
     <div class="brand-showcase">
         <h2 class="brand-showcase-title">
-            GIỚI THIỆU THƯƠNG HIỆU
+         THƯƠNG HIỆU SẢN PHẨM
         </h2>
         <div class="brand-showcase-box">
-            <ul class="brand-showcase-logo owl-carousel" data-loop="true" data-nav = "true" data-dots="false" data-margin = "1" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":2},"600":{"items":5},"1000":{"items":8}}'>
+            <ul class="owl-carousel" data-loop="true" data-nav = "true" data-dots="false" data-margin = "1" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":2},"600":{"items":5},"1000":{"items":8}}'>
                @foreach($supplier as $item)
-                    <li data-tab="showcase-9" class="item" style="border: 1px; padding: 5px; text-align: center; font-size: 18px;"><b>{{$item->name}}</b></li>
+                <li class="item" style="border: 1px; padding: 5px; text-align: center; font-size: 18px;">
+                      <a href="{{ url('/supplier/'.$item->id ) }}" title="{{ $item->name }}">
+                        <img src="{{ url('uploads/supplier/'.$item->logo ) }} " height="120px" />
+                      </a> 
+                </li>
                 @endforeach
             </ul>
-            <div class="brand-showcase-content">
-                <div class="brand-showcase-content-tab active" id="showcase-1">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4 trademark-info">
-                            <div class="trademark-logo">
-                                <a href="#"><img src="assets/data/trademark.jpg" alt="trademark"></a>
-                            </div>
-                            <div class="trademark-desc">
-                                Ngoài các sản phẩm bán lẻ trên website, koreanshop còn nhận thiết kế đồng phục nữ công sở cho các đơn vị với số lượng tối thiểu 40 chiếc/mẫu với mẫu thiết kế theo yêu cầu hoặc 10 chiếc/mẫu với mẫu có sẵn của koreanshop.                            </div>
-                            <a href="#" class="trademark-link">shop this brand</a>
-                        </div>
-                        <div class="col-xs-12 col-sm-8 trademark-product">
-                            <div class="row">
-                                @if($cate)
-                                    @foreach($cate as $item)
-                                <div class="col-xs-12 col-sm-6 product-item">
-                                    <div class="image-product hover-zoom">
-                                        <a href="#"><img class="img-repon" src="{{url('uploads/product/'.$item->thumbnail)}}" alt="" style=" width: 230px; height: 200px;"></a>
-                                    </div>
-                                    <div class="info-product">
-                                        <a href="#">
-                                            <h5>{{$item->name}}</h5>
-                                        </a>
-                                        <span class="price product-price">{{number_format($item->price * ($item->discount)   / 100)}}đ</span>
-                                        <div class="product-star">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>

@@ -16,14 +16,17 @@
                 <ul class="dropdown-menu mega_dropdown" role="menu">
                     <li>
                     @if (!Auth::user())
+                        <li><a href="{{url('/register')}}">Đăng ký</a></li>
                         <li><a href="{{url('/login')}}">Đăng nhập</a></li>
                     @else
-                        @if (Auth::user()->isAdmin())
-                             <li><a href="javascript:;">{{Auth::user()->name}}</a></li>
+                        @if (Auth::user()->isAdmin() || Auth::user()->isEmployee() )
+                            <li><a href="javascript:;">{{Auth::user()->name}}</a></li>
                             <li><a href="{{url('/admin')}}">Quản trị</a></li>
+                        @else 
+                            <li><a href="javascript:;">{{Auth::user()->name}}</a></li>  
                         @endif
                         {!! Form::open(['method' => 'POST', 'url' => 'logout']) !!}
-                        <li><button type="submit" >Đăng xuất</button></li>
+                        <li><button type="submit" style="margin-left: 10px;" >Đăng xuất</button></li>
                         {!! Form::close() !!}
                     @endif
                     </li>

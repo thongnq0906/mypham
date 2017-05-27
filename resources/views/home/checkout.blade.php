@@ -42,20 +42,21 @@
         <div class="container" id="columns">
             <!-- breadcrumb -->
             <div class="breadcrumb clearfix">
-                <a class="home" href="../" title="Return to Home">Trang chủ</a>
+                <a class="home" href="{{ url('/') }}" title="Trang chủ">Trang chủ</a>
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">Kiểm tra</span>
             </div>
+             @include('partials.showError')
             <h2 class="page-heading">
                 <span class="page-heading-title2">KIểm tra</span>
             </h2>
             <!-- ../page heading-->
             <div class="page-content checkout-page">
-                <h3 class="checkout-sep">1. Phương pháp kiểm tra
+                <h3 class="checkout-sep">1. ĐĂNG KÝ LÀ THÀNH VIÊN ĐỂ MUA HÀNG NHANH HƠN
                 </h3>
                 <div class="box-border">
                     <div class="row">
-                        <div class="col-sm-6">
+                      <!--   <div class="col-sm-6">
                             <h4>Kiểm tra như là một khách hoặc Đăng ký</h4>
                             <p>Đăng ký với chúng tôi để thuận tiện trong tương lai:</p>
                             <ul>
@@ -67,7 +68,7 @@
                             <p>Đăng ký với chúng tôi để thuận tiện trong tương lai:</p>
                             <p><i class="fa fa-check-circle text-primary"></i>  Nhanh chóng và dễ dàng kiểm tra ra</p>
                             <p><i class="fa fa-check-circle text-primary"></i> Dễ dàng truy cập vào lịch sử đơn hàng của bạn và tình trạng</p>
-                        </div>
+                        </div> -->
 
                         @if (!Auth::user())
                             <div id="loginBlock" class="col-sm-6">
@@ -102,6 +103,7 @@
                         @endif
                     </div>
                 </div>
+                @if(Cart::count() > 0)
                 <h3 class="checkout-sep">2. Xem đơn hàng</h3>
                 <div class="order-detail-content">
                     <table class="table table-bordered table-responsive cart_summary">
@@ -150,7 +152,7 @@
                         <tfoot>
                         <tr>
                             <td colspan="2" rowspan="2"></td>
-                            <td colspan="3">Tổng Tiền (bao gồm thuế)</td>
+                            <td colspan="3">Tổng Tiền </td>
                             <td colspan="2"><b style="color: red;">{{ Cart::subtotal(0, ".", ",") }}  đ</b></td>
                         </tr>
                         </tfoot>
@@ -158,7 +160,7 @@
                 </div>
 
                 {!! Form::open(['method' => 'POST', 'url' => 'order/create', 'role' =>'form']) !!}
-                    <h3 class="checkout-sep">3. Thông người nhận</h3>
+                    <h3 class="checkout-sep">3. Thông tin người nhận</h3>
                     <div class="box-border">
                         <ul>
                             <li class="row">
@@ -166,27 +168,27 @@
                                     <label for="first_name" class="required">Họ Tên</label>
                                     <input type="text" class="input form-control" name="name" id="first_name"
                                            value="@if(Auth::user() != null &&Auth::user()->name != null) {{ Auth::user()->name }} @endif" >
-                                </div><!--/ [col] -->
+                                </div>
                                 <div class="col-sm-6">
                                     <label for="fax">Email</label>
                                     <input class="input form-control" type="text" name="email" id="email"
                                            value="@if(Auth::user() != null &&Auth::user()->email != null) {{ Auth::user()->email }} @endif">
-                                </div><!--/ [col] -->
-                            </li><!--/ .row -->
+                                </div>
+                            </li>
                             <li class="row">
                                 <div class="col-sm-6">
                                     <label for="telephone" class="required">Số điện thoại</label>
                                     <input class="input form-control" type="text" name="phone" id="telephone"
                                            value="@if(Auth::user() != null &&Auth::user()->phone != null) {{ Auth::user()->phone }} @endif">
-                                </div><!--/ [col] -->
-                            </li><!--/ .row -->
+                                </div>
+                            </li>
                             <li class="row">
                                 <div class="col-xs-12">
                                         <label for="address" class="required">Địa chỉ</label>
                                     <input type="text" class="input form-control" name="address" id="address"
-                                           value="@if(Auth::user() != null &&Auth::user()->adderss != null) {{ Auth::user()->adderss }} @endif">
+                                           value="@if(Auth::user() != null &&Auth::user()->address != null) {{ Auth::user()->address }} @endif">
 
-                                </div><!--/ [col] -->
+                                </div>
                                 <div class="col-2">
                                     <div class="woocommerce-shipping-fields">
                                         <h3>Thông tin thêm</h3>
@@ -195,15 +197,34 @@
                                             <textarea name="order_comments" class="input-text "  style="  border: 1px solid #9BA2AB;  width: 1082px; height: 100px;" id="order_comments" placeholder="Ghi chú về đơn hàng, ví dụ: lưu ý khi giao hàng." rows="2" cols="5"></textarea></p>
                                     </div>
                                 </div>
-                            </li><!-- / .row -->
+                            </li>
+
+                            <li class="row">
+                                <div class="col-sm-6">
+                                    <label for="telephone" class="required">Phương thức thanh toán</label>
+                                    <div>
+                                         <label>Thanh toán trực tiếp: &nbsp;&nbsp;</label>
+                                         <input type="radio" name="payment" checked="true" value="0">
+                                    </div>
+                                    <div>
+                                        <label>Thanh toán online:  &nbsp;&nbsp;</label>
+                                        <input type="radio" name="payment" value="1">
+                                    </div>
+                                   
+                                </div>
+                            </li>
+
                         </ul>
                         <button type="submit" class="button pull-right">Đặt hàng</button>
                     </div>
                     <div class="cart_navigation">
-                        <a class="prev-btn" href="{{ url('/') }}" style="color: red;">Tiếp tục mua hàng</a> |
-                        <a class="next-btn" href="{{ url('/checkout') }}" style="color: red;">Tiến hành kiểm tra</a>
+                        <a class="prev-btn" href="{{ url('/') }}" style="color: red;">Tiếp tục mua hàng</a> 
+                        <!-- <a class="next-btn" href="{{ url('/checkout') }}" style="color: red;">Tiến hành kiểm tra</a> -->
                     </div>
                 {!! Form::close() !!}
+                @else 
+                  <h3 style="text-transform: uppercase;" > Bạn chưa có sản phẩm nào trong giỏ hàng </h3>
+                @endif
             </div>
         </div>
     </div>
